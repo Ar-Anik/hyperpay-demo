@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperPay Payment Demo</title>
+</head>
+
+<body>
+
+    <h1>HyperPay Payment Demo</h1>
+
+    <h3>Order Amount: 10.00 SAR</h3>
+
+    <p>
+        Test payment using HyperPay COPYandPAY.
+    </p>
+
+    <form id="checkout-form">
+
+        {% csrf_token %}
+
+        <button type="submit" id="checkout-button">
+            Continue to Payment
+        </button>
+
+    </form>
+
+    <div id="payment-section" hidden>
+
+        <h3>Enter Your Card Details</h3>
+
+        <form
+            action="{% url 'shopper_result' %}"
+            class="paymentWidgets"
+            data-brands="VISA MASTER AMEX"
+        >
+        </form>
+
+    </div>
+
+    <p id="message"></p>
+
+    <script src="{% static 'payments/js/payment.js' %}"></script>
+
+</body>
+
+</html>
+
