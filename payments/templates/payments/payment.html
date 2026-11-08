@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -13,40 +14,140 @@
 
     <h1>HyperPay Payment Demo</h1>
 
-    <h3>Order Amount: 10.00 SAR</h3>
-
     <p>
-        Test payment using HyperPay COPYandPAY.
+        Django integration with HyperPay COPYandPAY
+        and Server-to-Server Payment.
     </p>
 
-    <form id="checkout-form">
+    <!-- Django URLs for JavaScript -->
+    <div
+        id="payment-config"
+        data-create-checkout-url="{% url 'create_checkout' %}"
+        data-register-card-url="{% url 'register_card' %}"
+        data-verify-registration-url="{% url 'verify_registration' %}"
+        data-saved-cards-url="{% url 'saved_cards' %}"
+        data-pay-with-saved-card-url="{% url 'pay_with_saved_card' %}"
+        data-shopper-result-url="{% url 'shopper_result' %}"
+        data-registration-result-url="{% url 'registration_shopper_result' %}"
+        data-widget-base-url="{{ hyperpay_base_url }}"
+        hidden
+    ></div>
 
+    <!-- CSRF token for POST requests -->
+    <form id="csrf-form" hidden>
         {% csrf_token %}
+    </form>
 
-        <button type="submit" id="checkout-button">
+
+    <hr>
+
+    <!-- STEP 2: NORMAL PAYMENT -->
+
+    <section id="normal-payment-section">
+
+        <h2>Normal Payment</h2>
+
+        <h3>Order Amount: 10.00 SAR</h3>
+
+        <p>
+            Test payment using HyperPay COPYandPAY.
+        </p>
+
+        <button
+            type="button"
+            id="checkout-button"
+        >
             Continue to Payment
         </button>
 
-    </form>
+    </section>
 
-    <div id="payment-section" hidden>
 
-        <h3>Enter Your Card Details</h3>
+    <hr>
+
+    <!-- STEP 4: CARD REGISTRATION -->
+
+    <section id="registration-section">
+
+        <h2>Register a Card</h2>
+
+        <p>
+            Save a card token for later payments. HyperPay will process a
+            registration payment of 10.00 SAR using the test checkout.
+        </p>
+
+        <button
+            type="button"
+            id="register-card-button"
+        >
+            Save Card for Later
+        </button>
+
+    </section>
+
+
+    <hr>
+
+    <!-- SHARED HYPERPAY COPYandPAY WIDGET -->
+
+    <section id="payment-section" hidden>
+
+        <h2 id="payment-heading">
+            Enter Your Card Details
+        </h2>
 
         <form
+            id="hyperpay-form"
             action="{% url 'shopper_result' %}"
             class="paymentWidgets"
             data-brands="VISA MASTER AMEX"
+        ></form>
+
+    </section>
+
+
+    <hr>
+
+    <!-- STEP 4: SAVED CARDS -->
+
+    <section id="saved-cards-section">
+
+        <h2>Saved Cards</h2>
+
+        <p>
+            Registered cards appear here after HyperPay confirms the payment
+            and returns a registration token.
+        </p>
+
+        <button
+            type="button"
+            id="load-saved-cards-button"
         >
-        </form>
+            Load Saved Cards
+        </button>
 
-    </div>
+        <div id="saved-cards-list">
+            <p>
+            Loading saved cards...
+            </p>
+        </div>
 
-    <p id="message"></p>
+    </section>
+
+
+    <hr>
+
+    <!-- STATUS MESSAGE -->
+
+    <section>
+        <h2>Payment Status</h2>
+        <p id="message" aria-live="polite"></p>
+    </section>
+
+
+    <!-- JAVASCRIPT -->
 
     <script src="{% static 'payments/js/payment.js' %}"></script>
 
 </body>
-
 </html>
-

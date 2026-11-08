@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Card Payment Result</title>
+</head>
+<body>
+    <h1>Saved Card Payment Result</h1>
+    {% if verification_error %}
+        <h2>Verification pending</h2>
+        <p>{{ verification_error }}</p>
+    {% else %}
+        <h2>{{ payment.status }}</h2>
+        <p>{{ payment.result_description|default:"Payment status received." }}</p>
+        <p>Result code: {{ payment.result_code|default:"Not available" }}</p>
+    {% endif %}
+    <a href="{% url 'payment_page' %}">Return to payments</a>
+</body>
+</html>

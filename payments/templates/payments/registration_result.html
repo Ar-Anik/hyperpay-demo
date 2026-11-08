@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Registration Result</title>
+</head>
+<body>
+    <h1>Card Registration Result</h1>
+    <h2>{{ status }}</h2>
+    <p>{{ message }}</p>
+
+    {% if saved_card %}
+        <p>
+            Saved: {{ saved_card.card_brand|default:"Card" }} ending in
+            {{ saved_card.last_four_digits|default:"****" }}.
+            You can now use it from the Saved Cards section.
+        </p>
+    {% endif %}
+
+    <a href="{% url 'payment_page' %}">Return to payments</a>
+</body>
+</html>
