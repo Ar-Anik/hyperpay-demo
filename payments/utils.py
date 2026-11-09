@@ -33,7 +33,7 @@ class HyperPayService:
             "Authorization": f"Bearer {self.access_token}",
         }
 
-    def create_checkout(self, amount, currency, payment_type='DB'):
+    def create_checkout(self, amount, currency, payment_type='DB', shopper_result_url=None):
         url = f"{self.base_url}/v1/checkouts"
 
         payload = {
@@ -43,6 +43,8 @@ class HyperPayService:
             "paymentType": payment_type,
             "integrity": "true",
         }
+        if shopper_result_url:
+            payload["shopperResultUrl"] = shopper_result_url
 
         try:
             response = requests.post(
@@ -165,7 +167,7 @@ class HyperPayClient:
 
         return data
 
-    def create_registration_checkout(self, amount, currency):
+    def create_registration_checkout(self, amount, currency, shopper_result_url=None):
         url = f"{self.base_url}/v1/checkouts"
 
         payload = {
@@ -178,6 +180,8 @@ class HyperPayClient:
             "standingInstruction.mode": "INITIAL",
             "standingInstruction.type": "UNSCHEDULED",
         }
+        if shopper_result_url:
+            payload["shopperResultUrl"] = shopper_result_url
 
         try:
             response = requests.post(

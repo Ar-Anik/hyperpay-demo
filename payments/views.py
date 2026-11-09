@@ -50,6 +50,9 @@ def create_checkout(request):
             amount=amount,
             currency=currency,
             payment_type=payment.payment_type,
+            shopper_result_url=request.build_absolute_uri(
+                reverse("shopper_result")
+            ),
         )
 
         checkout_id = response_data['id']
@@ -151,7 +154,13 @@ def create_registration_checkout(request):
 
     try:
         hyperpay = HyperPayClient()
-        response_data = hyperpay.create_registration_checkout(amount=amount, currency=currency)
+        response_data = hyperpay.create_registration_checkout(
+            amount=amount,
+            currency=currency,
+            shopper_result_url=request.build_absolute_uri(
+                reverse("registration_shopper_result")
+            ),
+        )
 
         checkout_id = response_data.get("id")
 
